@@ -10,10 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.rule.OutputCapture;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { MainApplication.class })
+@SpringBootTest
 public class MainApplicationTest {
 
     @Autowired
@@ -46,7 +46,7 @@ public class MainApplicationTest {
     public void passingWebAddressTest() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
-                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/lastBuild/consoleText"
         });
 
         application.run(testArguments);
@@ -54,11 +54,23 @@ public class MainApplicationTest {
     }
 
     @Test
-    public void passingMultipleParameters() throws Exception {
+    public void passingMultipleFileParameters() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
                 "--file=sample.log",
                 "--file=sample2.log"
+        });
+
+        application.run(testArguments);
+        assertThat(outputCapture.toString()).contains("NOT PARSED");
+    }
+
+    @Test
+    public void passingMultipleWebAddressParameters() throws Exception {
+
+        ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull",
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
         });
 
         application.run(testArguments);

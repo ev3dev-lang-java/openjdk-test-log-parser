@@ -8,11 +8,11 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.DefaultApplicationArguments;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.rule.OutputCapture;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest(classes = { MainApplication.class })
 public class MainApplicationTest {
 
@@ -35,7 +35,7 @@ public class MainApplicationTest {
     public void passingLocalFileTest() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
-                "file:sample.log"
+                "--file=sample.log"
         });
 
         application.run(testArguments);
@@ -46,7 +46,7 @@ public class MainApplicationTest {
     public void passingWebAddressTest() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
-                "url:https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
         });
 
         application.run(testArguments);
@@ -57,8 +57,8 @@ public class MainApplicationTest {
     public void passingMultipleParameters() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
-                "file:sample.log",
-                "file:sample2.log"
+                "--file=sample.log",
+                "--file=sample2.log"
         });
 
         application.run(testArguments);
@@ -69,8 +69,8 @@ public class MainApplicationTest {
     public void passingMultipleMixedParameters() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
-                "file:sample.log",
-                "url:https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
+                "--file=sample.log",
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
         });
 
         application.run(testArguments);

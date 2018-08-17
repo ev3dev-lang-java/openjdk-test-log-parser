@@ -26,5 +26,14 @@ public class MainApplication implements ApplicationRunner {
 
         String strArgs = Arrays.stream(args.getSourceArgs()).collect(Collectors.joining("|"));
         LOGGER.info("Application started with arguments:" + strArgs);
+
+        String file = null;
+
+        if (args.containsOption("file")) {
+            file = args.getOptionValues("file").get(0);
+        }
+
+        LOGGER.info(file);
+
     }
 }

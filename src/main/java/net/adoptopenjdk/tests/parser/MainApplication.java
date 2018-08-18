@@ -1,6 +1,7 @@
 package net.adoptopenjdk.tests.parser;
 
 import net.adoptopenjdk.tests.parser.service.ReaderService;
+import net.adoptopenjdk.tests.parser.service.TestExecutionParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.adoptopenjdk.tests.parser.service.ReaderService.NATURE.FILE;
@@ -23,6 +25,10 @@ public class MainApplication implements ApplicationRunner {
     @Autowired
     private ReaderService readerService;
 
+    @Autowired
+    private TestExecutionParser testExecutionParser;
+
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MainApplication.class, args);
     }
@@ -35,12 +41,14 @@ public class MainApplication implements ApplicationRunner {
         String strArgs = Arrays.stream(args.getSourceArgs()).collect(Collectors.joining("|"));
         LOGGER.info("Application started with arguments:" + strArgs);
 
-        if(args.containsOption("file") || args.containsOption("url")) {
+        if (args.containsOption("file") || args.containsOption("url")) {
 
             if(args.containsOption("file")) {
 
                 if(args.getOptionValues("file").size() == 1) {
-                    readerService.process(args.getOptionValues("file").get(0), FILE);
+                    List<String> log = readerService.process(args.getOptionValues("file").get(0), FILE);
+                    print(testExecutionParser.process(log));
+                    LOGGER.info("PARSED");
                 } else {
                     LOGGER.info("NOT PARSED");
                 }
@@ -48,7 +56,9 @@ public class MainApplication implements ApplicationRunner {
             } else {
 
                 if(args.getOptionValues("url").size() == 1) {
-                    readerService.process(args.getOptionValues("url").get(0), WEB);
+                    List<String> log = readerService.process(args.getOptionValues("url").get(0), WEB);
+                    print(testExecutionParser.process(log));
+                    LOGGER.info("PARSED");
                 } else {
                     LOGGER.info("NOT PARSED");
                 }
@@ -58,6 +68,10 @@ public class MainApplication implements ApplicationRunner {
         } else {
             LOGGER.info("NOT PARSED");
         }
+    }
+
+    private void print(List<String> list) {
+        list.stream().forEach(System.out::println);
     }
 
 }

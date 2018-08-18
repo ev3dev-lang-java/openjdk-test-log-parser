@@ -3,6 +3,8 @@ package net.adoptopenjdk.tests.parser;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.DefaultApplicationArguments;
@@ -15,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MainApplicationTest {
-
+    
     @Autowired
     private MainApplication application;
 
@@ -46,7 +48,7 @@ public class MainApplicationTest {
     public void passingWebAddressTest() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
-                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/lastBuild/consoleText"
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux_full/lastBuild/consoleText"
         });
 
         application.run(testArguments);
@@ -69,8 +71,8 @@ public class MainApplicationTest {
     public void passingMultipleWebAddressParameters() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
-                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull",
-                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux_full/lastBuild/consoleText",
+                "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux_full/lastBuild/consoleText"
         });
 
         application.run(testArguments);

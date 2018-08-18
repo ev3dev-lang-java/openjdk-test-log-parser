@@ -1,7 +1,6 @@
 package net.adoptopenjdk.tests.parser;
 
-import net.adoptopenjdk.tests.parser.service.LogFileService;
-import net.adoptopenjdk.tests.parser.service.LogWebAddressService;
+import net.adoptopenjdk.tests.parser.service.ReaderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +12,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static net.adoptopenjdk.tests.parser.service.ReaderService.NATURE.FILE;
+import static net.adoptopenjdk.tests.parser.service.ReaderService.NATURE.WEB;
+
 @SpringBootApplication
 public class MainApplication implements ApplicationRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainApplication.class);
 
     @Autowired
-    private LogFileService logFileService;
+    private ReaderService readerService;
 
-    @Autowired
-    private LogWebAddressService logWebAddressService;
-    
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MainApplication.class, args);
     }
@@ -41,7 +40,7 @@ public class MainApplication implements ApplicationRunner {
             if(args.containsOption("file")) {
 
                 if(args.getOptionValues("file").size() == 1) {
-                    logFileService.process(args.getOptionValues("file").get(0));
+                    readerService.process(args.getOptionValues("file").get(0), FILE);
                 } else {
                     LOGGER.info("NOT PARSED");
                 }
@@ -49,7 +48,7 @@ public class MainApplication implements ApplicationRunner {
             } else {
 
                 if(args.getOptionValues("url").size() == 1) {
-                    logWebAddressService.process(args.getOptionValues("url").get(0));
+                    readerService.process(args.getOptionValues("url").get(0), WEB);
                 } else {
                     LOGGER.info("NOT PARSED");
                 }

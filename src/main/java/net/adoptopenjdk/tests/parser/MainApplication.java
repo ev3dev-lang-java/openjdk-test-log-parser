@@ -41,13 +41,23 @@ public class MainApplication implements ApplicationRunner {
         String strArgs = Arrays.stream(args.getSourceArgs()).collect(Collectors.joining("|"));
         LOGGER.info("Application started with arguments:" + strArgs);
 
+        String issue = "";
+        if(args.containsOption("issue")){
+            issue = args.getOptionValues("issue").get(0);
+        }
+
+        String platform = "";
+        if(args.containsOption("platform")){
+            platform = args.getOptionValues("platform").get(0);
+        }
+
         if (args.containsOption("file") || args.containsOption("url")) {
 
             if(args.containsOption("file")) {
 
                 if(args.getOptionValues("file").size() == 1) {
                     List<String> log = readerService.process(args.getOptionValues("file").get(0), FILE);
-                    print(testExecutionParser.process(log));
+                    print(testExecutionParser.process(log), issue, platform);
                     LOGGER.info("PARSED");
                 } else {
                     LOGGER.info("NOT PARSED");
@@ -57,7 +67,7 @@ public class MainApplication implements ApplicationRunner {
 
                 if(args.getOptionValues("url").size() == 1) {
                     List<String> log = readerService.process(args.getOptionValues("url").get(0), WEB);
-                    print(testExecutionParser.process(log));
+                    print(testExecutionParser.process(log), issue, platform);
                     LOGGER.info("PARSED");
                 } else {
                     LOGGER.info("NOT PARSED");
@@ -70,8 +80,10 @@ public class MainApplication implements ApplicationRunner {
         }
     }
 
-    private void print(List<String> list) {
-        list.stream().forEach(System.out::println);
+    private void print(List<String> list, String issue, String platform) {
+        list.stream().forEach(className -> {
+            System.out.println(String.format("%s %s %s", className, issue, platform));
+        });
     }
 
 }

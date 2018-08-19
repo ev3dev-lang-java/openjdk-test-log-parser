@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MainApplicationTest {
-    
+
     @Autowired
     private MainApplication application;
 
@@ -37,6 +37,8 @@ public class MainApplicationTest {
     public void passingLocalFileTest() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
+                "--issue=520",
+                "--platform=linux_arm",
                 "--file=sample.log"
         });
 
@@ -48,6 +50,8 @@ public class MainApplicationTest {
     public void passingWebAddressTest() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
+                "--issue=520",
+                "--platform=linux_arm",
                 "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux_full/lastBuild/consoleText"
         });
 
@@ -59,6 +63,8 @@ public class MainApplicationTest {
     public void passingMultipleFileParameters() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
+                "--issue=520",
+                "--platform=linux_arm",
                 "--file=sample.log",
                 "--file=sample2.log"
         });
@@ -71,6 +77,8 @@ public class MainApplicationTest {
     public void passingMultipleWebAddressParameters() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
+                "--issue=520",
+                "--platform=linux_arm",
                 "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux_full/lastBuild/consoleText",
                 "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux_full/lastBuild/consoleText"
         });
@@ -83,6 +91,8 @@ public class MainApplicationTest {
     public void passingMultipleMixedParameters() throws Exception {
 
         ApplicationArguments testArguments = new DefaultApplicationArguments(new String[] {
+                "--issue=520",
+                "--platform=linux_arm",
                 "--file=sample.log",
                 "--url=https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_openjdktest_ev3_linux/7/consoleFull"
         });
